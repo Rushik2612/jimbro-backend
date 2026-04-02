@@ -47,6 +47,7 @@ public class DatabaseConfig {
             if (password != null) properties.setPassword(password);
             
             properties.setDriverClassName("org.postgresql.Driver");
+            logger.info("Set Driver to org.postgresql.Driver");
         } else {
             // Local fallback uses application.properties values
             logger.info("No DATABASE_URL found, using application.properties defaults");
