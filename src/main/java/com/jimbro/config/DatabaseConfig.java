@@ -24,8 +24,11 @@ public class DatabaseConfig {
         if (rawUrl != null && !rawUrl.isEmpty()) {
             logger.info("Detected DATABASE_URL from environment");
             
-            if (rawUrl.startsWith("postgresql://")) {
-                String jdbcUrl = "jdbc:" + rawUrl;
+            if (rawUrl.startsWith("postgresql://") || rawUrl.startsWith("postgres://")) {
+                // Remove prefix if it exists to normalize
+                String cleanUrl = rawUrl.replaceFirst("^(postgresql|postgres)://", "");
+                String jdbcUrl = "jdbc:postgresql://" + cleanUrl;
+                
                 // PostgreSQL on Render often requires SSL
                 if (!jdbcUrl.contains("sslmode=")) {
                     jdbcUrl += (jdbcUrl.contains("?") ? "&" : "?") + "sslmode=require";
